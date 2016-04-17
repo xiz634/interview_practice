@@ -1,4 +1,7 @@
 import sys
+import unittest
+
+# automata implementation
 
 def isNumber(s):
     state = [{},
@@ -11,7 +14,7 @@ def isNumber(s):
              {'d': 8},
              {'d': 8, 'b': 9},
              {'b': 9}]
-    currentState = 1;
+    current_state = 1;
     for c in s:
         if c in ['d', 's', 'b']:
             return False
@@ -21,17 +24,39 @@ def isNumber(s):
             c = 'b'
         elif c in ['+', '-']:
             c = 's'
-        elif c not in state[currentState].keys():
+        if c not in state[current_state].keys():
             return False
-        currentState = state[currentState][c]
-    if currentState not in [3, 5, 8, 9]:
+        current_state = state[current_state][c]
+    if current_state not in [3, 5, 8, 9]:
         return False
     return True
 
+class TestStringMethods(unittest.TestCase):
+
+    def test_valid_number(self):
+        self.assertTrue(isNumber('1234'))
+        self.assertTrue(isNumber('.235'))
+        self.assertTrue(isNumber('1e15'))
+        self.assertTrue(isNumber('+5'))
+        self.assertTrue(isNumber('    123   '))
+        self.assertTrue(isNumber('1.5e-5'))
+        self.assertTrue(isNumber('+.52e12'))
+
+    def test_invalid_number(self):
+        self.assertFalse(isNumber('..123'))
+        self.assertFalse(isNumber('ddd'))
+        self.assertFalse(isNumber('1 23'))
+        self.assertFalse(isNumber('5.e5'))
+        self.assertFalse(isNumber('52d'))
+        self.assertFalse(isNumber('+-5'))
+        self.assertFalse(isNumber('1.5e+-5'))
+        self.assertFalse(isNumber('..5'))
+
 if __name__ == '__main__':
-    while True:
-        try:
-            print(isNumber(input('--> ')))
-        except (EOFError, KeyboardInterrupt):
-            sys.exit(0)
+#    while True:
+#        try:
+#            print(isNumber(input('--> ')))
+#        except (EOFError, KeyboardInterrupt):
+#            sys.exit(0)
+    unittest.main()
 
