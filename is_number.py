@@ -27,9 +27,7 @@ def isNumber(s):
         if c not in state[current_state].keys():
             return False
         current_state = state[current_state][c]
-    if current_state not in [3, 5, 8, 9]:
-        return False
-    return True
+    return current_state in [3, 5, 8, 9]:
 
 class TestStringMethods(unittest.TestCase):
 
